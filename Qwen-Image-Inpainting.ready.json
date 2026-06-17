@@ -32,9 +32,7 @@
           "name": "MASK",
           "type": "MASK",
           "slot_index": 1,
-          "links": [
-            406
-          ]
+          "links": []
         }
       ],
       "properties": {
@@ -66,12 +64,6 @@
           "name": "image",
           "type": "IMAGE",
           "link": 404
-        },
-        {
-          "localized_name": "mask",
-          "name": "mask",
-          "type": "MASK",
-          "link": 406
         },
         {
           "name": "text",
@@ -192,14 +184,6 @@
       "IMAGE"
     ],
     [
-      406,
-      257,
-      1,
-      256,
-      1,
-      "MASK"
-    ],
-    [
       407,
       256,
       0,
@@ -217,7 +201,7 @@
         "state": {
           "lastGroupId": 14,
           "lastNodeId": 256,
-          "lastLinkId": 403,
+          "lastLinkId": 406,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -256,19 +240,6 @@
             ]
           },
           {
-            "id": "28f4cf42-1c6d-49b8-abce-53ef9c628907",
-            "name": "mask",
-            "type": "MASK",
-            "linkIds": [
-              205
-            ],
-            "localized_name": "mask",
-            "pos": [
-              -739.412109375,
-              570
-            ]
-          },
-          {
             "id": "f082f9ab-9a31-4d99-b4fd-4900453a30a8",
             "name": "text",
             "type": "STRING",
@@ -277,7 +248,7 @@
             ],
             "pos": [
               -739.412109375,
-              590
+              570
             ]
           },
           {
@@ -289,7 +260,7 @@
             ],
             "pos": [
               -739.412109375,
-              610
+              590
             ]
           },
           {
@@ -301,7 +272,7 @@
             ],
             "pos": [
               -739.412109375,
-              630
+              610
             ]
           },
           {
@@ -313,7 +284,7 @@
             ],
             "pos": [
               -739.412109375,
-              650
+              630
             ]
           }
         ],
@@ -647,7 +618,7 @@
                 "localized_name": "model",
                 "name": "model",
                 "type": "MODEL",
-                "link": 149
+                "link": 145
               },
               {
                 "localized_name": "shift",
@@ -676,6 +647,116 @@
             },
             "widgets_values": [
               3.1000000000000005
+            ]
+          },
+          {
+            "id": 254,
+            "type": "GetImageSize",
+            "pos": [
+              10,
+              1170
+            ],
+            "size": [
+              230,
+              120
+            ],
+            "flags": {},
+            "order": 18,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "image",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 404
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "width",
+                "name": "width",
+                "type": "INT",
+                "links": [
+                  405
+                ]
+              },
+              {
+                "localized_name": "height",
+                "name": "height",
+                "type": "INT",
+                "links": [
+                  406
+                ]
+              },
+              {
+                "localized_name": "batch_size",
+                "name": "batch_size",
+                "type": "INT",
+                "links": null
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.7.0",
+              "Node name for S&R": "GetImageSize"
+            }
+          },
+          {
+            "id": 255,
+            "type": "SolidMask",
+            "pos": [
+              260,
+              1170
+            ],
+            "size": [
+              250,
+              130
+            ],
+            "flags": {},
+            "order": 19,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "value",
+                "name": "value",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "value"
+                },
+                "link": null
+              },
+              {
+                "localized_name": "width",
+                "name": "width",
+                "type": "INT",
+                "link": 405
+              },
+              {
+                "localized_name": "height",
+                "name": "height",
+                "type": "INT",
+                "link": 406
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "MASK",
+                "name": "MASK",
+                "type": "MASK",
+                "links": [
+                  205
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.3.59",
+              "Node name for S&R": "SolidMask"
+            },
+            "widgets_values": [
+              1,
+              512,
+              512
             ]
           },
           {
@@ -804,7 +885,7 @@
             "outputs": [],
             "properties": {},
             "widgets_values": [
-              "Set cfg to 1.0 for a speed boost at the cost of consistency. Samplers like res_multistep work pretty well at cfg 1.0\n\nThe official number of steps is 50 but I think that's too much. Even just 10 steps seems to work."
+              "Defaults are tuned for stronger photo edits instead of the 4-step speed preset. If the prompt is still too weak, raise steps toward 40 before changing anything else."
             ],
             "color": "#432",
             "bgcolor": "#653"
@@ -922,77 +1003,10 @@
             "title": "Note: KSampler settings",
             "properties": {},
             "widgets_values": [
-              "You can test and find the best setting by yourself. The following table is for reference.\n| Parameters   | Qwen Team | Comfy Original | with 4steps LoRA |\n|--------|---------|------------|---------------------------|\n| Steps  | 50      | 20         | 4                         |\n| CFG    | 4.0     | 2.5        | 1.0                       |"
+              "You can still tune this further if needed. The workflow now defaults to the stronger base-model path with 20 steps and CFG 4.0 for more visible prompt-driven edits."
             ],
             "color": "#432",
             "bgcolor": "#653"
-          },
-          {
-            "id": 80,
-            "type": "LoraLoaderModelOnly",
-            "pos": [
-              350,
-              -70
-            ],
-            "size": [
-              430,
-              82
-            ],
-            "flags": {},
-            "order": 3,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "model",
-                "name": "model",
-                "type": "MODEL",
-                "link": 145
-              },
-              {
-                "localized_name": "lora_name",
-                "name": "lora_name",
-                "type": "COMBO",
-                "widget": {
-                  "name": "lora_name"
-                },
-                "link": null
-              },
-              {
-                "localized_name": "strength_model",
-                "name": "strength_model",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "strength_model"
-                },
-                "link": null
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "MODEL",
-                "name": "MODEL",
-                "type": "MODEL",
-                "links": [
-                  149
-                ]
-              }
-            ],
-            "properties": {
-              "cnr_id": "comfy-core",
-              "ver": "0.3.51",
-              "Node name for S&R": "LoraLoaderModelOnly",
-              "models": [
-                {
-                  "name": "Qwen-Image-Lightning-4steps-V1.0.safetensors",
-                  "url": "https://huggingface.co/lightx2v/Qwen-Image-Lightning/resolve/main/Qwen-Image-Lightning-4steps-V1.0.safetensors",
-                  "directory": "loras"
-                }
-              ]
-            },
-            "widgets_values": [
-              "Qwen-Image-Lightning-4steps-V1.0.safetensors",
-              1
-            ]
           },
           {
             "id": 6,
@@ -1230,8 +1244,8 @@
             "widgets_values": [
               0,
               "randomize",
+              20,
               4,
-              1,
               "euler",
               "simple",
               1
@@ -1266,7 +1280,8 @@
                 "type": "IMAGE",
                 "links": [
                   396,
-                  397
+                  397,
+                  404
                 ]
               }
             ],
@@ -1274,86 +1289,196 @@
               "cnr_id": "comfy-core",
               "ver": "0.13.0",
               "Node name for S&R": "FluxKontextImageScale"
-            },
-            "widgets_values": []
-          },
-          {
-            "id": 8,
-            "type": "VAEDecode",
-            "pos": [
-              900,
-              880
-            ],
-            "size": [
-              250,
-              46
-            ],
-            "flags": {},
-            "order": 8,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "samples",
-                "name": "samples",
-                "type": "LATENT",
-                "link": 128
+                },
+                "widgets_values": []
               },
               {
-                "localized_name": "vae",
-                "name": "vae",
-                "type": "VAE",
-                "link": 76
-              }
-            ],
-            "outputs": [
+                "id": 254,
+                "type": "GetImageSize",
+                "pos": [
+                  10,
+                  1170
+                ],
+                "size": [
+                  230,
+                  120
+                ],
+                "flags": {},
+                "order": 18,
+                "mode": 0,
+                "inputs": [
+                  {
+                    "localized_name": "image",
+                    "name": "image",
+                    "type": "IMAGE",
+                    "link": 404
+                  }
+                ],
+                "outputs": [
+                  {
+                    "localized_name": "width",
+                    "name": "width",
+                    "type": "INT",
+                    "links": [
+                      405
+                    ]
+                  },
+                  {
+                    "localized_name": "height",
+                    "name": "height",
+                    "type": "INT",
+                    "links": [
+                      406
+                    ]
+                  },
+                  {
+                    "localized_name": "batch_size",
+                    "name": "batch_size",
+                    "type": "INT",
+                    "links": null
+                  }
+                ],
+                "properties": {
+                  "cnr_id": "comfy-core",
+                  "ver": "0.7.0",
+                  "Node name for S&R": "GetImageSize"
+                }
+              },
               {
-                "localized_name": "IMAGE",
-                "name": "IMAGE",
-                "type": "IMAGE",
-                "slot_index": 0,
-                "links": [
-                  110,
-                  400
+                "id": 255,
+                "type": "SolidMask",
+                "pos": [
+                  260,
+                  1170
+                ],
+                "size": [
+                  250,
+                  130
+                ],
+                "flags": {},
+                "order": 19,
+                "mode": 0,
+                "inputs": [
+                  {
+                    "localized_name": "value",
+                    "name": "value",
+                    "type": "FLOAT",
+                    "widget": {
+                      "name": "value"
+                    },
+                    "link": null
+                  },
+                  {
+                    "localized_name": "width",
+                    "name": "width",
+                    "type": "INT",
+                    "link": 405
+                  },
+                  {
+                    "localized_name": "height",
+                    "name": "height",
+                    "type": "INT",
+                    "link": 406
+                  }
+                ],
+                "outputs": [
+                  {
+                    "localized_name": "MASK",
+                    "name": "MASK",
+                    "type": "MASK",
+                    "links": [
+                      205
+                    ]
+                  }
+                ],
+                "properties": {
+                  "cnr_id": "comfy-core",
+                  "ver": "0.3.59",
+                  "Node name for S&R": "SolidMask"
+                },
+                "widgets_values": [
+                  1,
+                  512,
+                  512
                 ]
-              }
-            ],
-            "properties": {
-              "cnr_id": "comfy-core",
-              "ver": "0.3.51",
-              "Node name for S&R": "VAEDecode"
-            },
-            "widgets_values": []
-          },
-          {
-            "id": 124,
-            "type": "MaskPreview",
-            "pos": [
-              440,
-              1100
-            ],
-            "size": [
-              320,
-              340
-            ],
-            "flags": {},
-            "order": 16,
-            "mode": 4,
-            "inputs": [
+              },
               {
-                "localized_name": "mask",
-                "name": "mask",
-                "type": "MASK",
-                "link": 215
-              }
-            ],
-            "outputs": [],
-            "properties": {
-              "cnr_id": "comfy-core",
-              "ver": "0.3.59",
-              "Node name for S&R": "MaskPreview"
-            },
-            "widgets_values": []
-          }
+                "id": 8,
+                "type": "VAEDecode",
+                "pos": [
+                  900,
+                  880
+                ],
+                "size": [
+                  250,
+                  46
+                ],
+                "flags": {},
+                "order": 8,
+                "mode": 0,
+                "inputs": [
+                  {
+                    "localized_name": "samples",
+                    "name": "samples",
+                    "type": "LATENT",
+                    "link": 128
+                  },
+                  {
+                    "localized_name": "vae",
+                    "name": "vae",
+                    "type": "VAE",
+                    "link": 76
+                  }
+                ],
+                "outputs": [
+                  {
+                    "localized_name": "IMAGE",
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "slot_index": 0,
+                    "links": [
+                      110,
+                      400
+                    ]
+                  }
+                ],
+                "properties": {
+                  "cnr_id": "comfy-core",
+                  "ver": "0.3.51",
+                  "Node name for S&R": "VAEDecode"
+                },
+                "widgets_values": []
+              },
+              {
+                "id": 124,
+                "type": "MaskPreview",
+                "pos": [
+                  440,
+                  1100
+                ],
+                "size": [
+                  320,
+                  340
+                ],
+                "flags": {},
+                "order": 16,
+                "mode": 4,
+                "inputs": [
+                  {
+                    "localized_name": "mask",
+                    "name": "mask",
+                    "type": "MASK",
+                    "link": 215
+                  }
+                ],
+                "outputs": [],
+                "properties": {
+                  "cnr_id": "comfy-core",
+                  "ver": "0.3.59",
+                  "Node name for S&R": "MaskPreview"
+                },
+                "widgets_values": []
+                  }
         ],
         "groups": [
           {
@@ -1384,7 +1509,7 @@
           },
           {
             "id": 5,
-            "title": "4 steps lightning LoRA",
+            "title": "Stronger edit defaults",
             "bounding": [
               320,
               -140,
@@ -1417,14 +1542,6 @@
             "target_id": 7,
             "target_slot": 0,
             "type": "CLIP"
-          },
-          {
-            "id": 149,
-            "origin_id": 80,
-            "origin_slot": 0,
-            "target_id": 66,
-            "target_slot": 0,
-            "type": "MODEL"
           },
           {
             "id": 190,
@@ -1526,7 +1643,7 @@
             "id": 145,
             "origin_id": 37,
             "origin_slot": 0,
-            "target_id": 80,
+            "target_id": 66,
             "target_slot": 0,
             "type": "MODEL"
           },
@@ -1564,11 +1681,35 @@
           },
           {
             "id": 205,
-            "origin_id": -10,
-            "origin_slot": 1,
+            "origin_id": 255,
+            "origin_slot": 0,
             "target_id": 121,
             "target_slot": 0,
             "type": "MASK"
+          },
+          {
+            "id": 404,
+            "origin_id": 224,
+            "origin_slot": 0,
+            "target_id": 254,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 405,
+            "origin_id": 254,
+            "origin_slot": 0,
+            "target_id": 255,
+            "target_slot": 1,
+            "type": "INT"
+          },
+          {
+            "id": 406,
+            "origin_id": 254,
+            "origin_slot": 1,
+            "target_id": 255,
+            "target_slot": 2,
+            "type": "INT"
           },
           {
             "id": 110,
@@ -1581,7 +1722,7 @@
           {
             "id": 394,
             "origin_id": -10,
-            "origin_slot": 2,
+            "origin_slot": 1,
             "target_id": 6,
             "target_slot": 1,
             "type": "STRING"
@@ -1621,7 +1762,7 @@
           {
             "id": 401,
             "origin_id": -10,
-            "origin_slot": 3,
+            "origin_slot": 2,
             "target_id": 38,
             "target_slot": 0,
             "type": "COMBO"
@@ -1629,7 +1770,7 @@
           {
             "id": 402,
             "origin_id": -10,
-            "origin_slot": 4,
+            "origin_slot": 3,
             "target_id": 39,
             "target_slot": 0,
             "type": "COMBO"
@@ -1637,7 +1778,7 @@
           {
             "id": 403,
             "origin_id": -10,
-            "origin_slot": 5,
+            "origin_slot": 4,
             "target_id": 84,
             "target_slot": 0,
             "type": "COMBO"
