@@ -1,0 +1,136 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "ideogram4_nvfp4_mixed.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader"
+  },
+  "2": {
+    "inputs": {
+      "unet_name": "ideogram4_unconditional_nvfp4_mixed.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader"
+  },
+  "3": {
+    "inputs": {
+      "clip_name": "qwen3vl_8b_nvfp4.safetensors",
+      "type": "ideogram4",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader"
+  },
+  "4": {
+    "inputs": {
+      "text": "{\"high_level_description\":\"A premium travel poster for Kyoto at blue hour with elegant typography and cinematic atmosphere.\",\"style_description\":{\"aesthetics\":\"cinematic, elegant, premium, polished\",\"lighting\":\"blue hour glow, warm lantern light, reflective highlights\",\"medium\":\"graphic_design\",\"art_style\":\"clean poster design, realistic detail, sharp typography\",\"color_palette\":[\"#0B1F3A\",\"#1E3A5F\",\"#F4C542\",\"#FFF4E0\",\"#B7410E\"]},\"compositional_deconstruction\":{\"background\":\"A Kyoto alley at blue hour with warm paper lanterns, wet stone street reflections, and subtle traditional architecture in the distance.\",\"elements\":[{\"type\":\"obj\",\"bbox\":[120,120,920,880],\"desc\":\"A beautiful Kyoto alley scene with glowing lanterns, polished stone reflections, strong depth, and balanced composition.\"},{\"type\":\"text\",\"bbox\":[60,80,180,920],\"text\":\"KYOTO\",\"desc\":\"Large elegant headline across the top, perfectly readable premium poster typography.\"},{\"type\":\"text\",\"bbox\":[820,120,920,880],\"text\":\"BLUE HOUR\",\"desc\":\"Smaller refined subtitle near the bottom, clean sans-serif lettering.\"}]}}",
+      "clip": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "5": {
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "model_negative": [
+        "2",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "cfg": 7.0
+    },
+    "class_type": "DualModelGuider"
+  },
+  "6": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect"
+  },
+  "7": {
+    "inputs": {
+      "steps": 20,
+      "width": 768,
+      "height": 768,
+      "mu": 0.0,
+      "std": 1.75
+    },
+    "class_type": "Ideogram4Scheduler"
+  },
+  "8": {
+    "inputs": {
+      "width": 768,
+      "height": 768,
+      "batch_size": 1
+    },
+    "class_type": "EmptyFlux2LatentImage"
+  },
+  "9": {
+    "inputs": {
+      "noise_seed": 20260616
+    },
+    "class_type": "RandomNoise"
+  },
+  "10": {
+    "inputs": {
+      "noise": [
+        "9",
+        0
+      ],
+      "guider": [
+        "5",
+        0
+      ],
+      "sampler": [
+        "6",
+        0
+      ],
+      "sigmas": [
+        "7",
+        0
+      ],
+      "latent_image": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced"
+  },
+  "11": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "12": {
+    "inputs": {
+      "samples": [
+        "10",
+        0
+      ],
+      "vae": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "13": {
+    "inputs": {
+      "filename_prefix": "ideogram4_nvfp4_t2i",
+      "images": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  }
+}

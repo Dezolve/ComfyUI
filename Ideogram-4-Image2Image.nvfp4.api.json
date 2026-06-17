@@ -1,0 +1,172 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "ideogram4_nvfp4_mixed.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader"
+  },
+  "2": {
+    "inputs": {
+      "unet_name": "ideogram4_unconditional_nvfp4_mixed.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader"
+  },
+  "3": {
+    "inputs": {
+      "clip_name": "qwen3vl_8b_nvfp4.safetensors",
+      "type": "ideogram4",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader"
+  },
+  "4": {
+    "inputs": {
+      "image": "example.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "5": {
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "6": {
+    "inputs": {
+      "pixels": [
+        "4",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "VAEEncode"
+  },
+  "7": {
+    "inputs": {
+      "text": "{\"high_level_description\":\"A polished cinematic poster redesign of the source image while preserving the main subject and overall composition.\",\"style_description\":{\"aesthetics\":\"premium, cinematic, crisp, editorial\",\"lighting\":\"dramatic but clean, enhanced contrast, luminous highlights\",\"medium\":\"graphic_design\",\"art_style\":\"high-end poster design with realistic detail and sharp typography\",\"color_palette\":[\"#0E1420\",\"#1F3B73\",\"#F3B33D\",\"#F5F1E8\",\"#C94E2F\"]},\"compositional_deconstruction\":{\"background\":\"Keep the source image background structure but refine it into a cleaner, more premium poster backdrop with clearer separation and dramatic lighting.\",\"elements\":[{\"type\":\"obj\",\"desc\":\"Preserve the main subject from the source image with improved detail, cleaner edges, and stronger visual focus.\"},{\"type\":\"text\",\"text\":\"IDEOGRAM 4\",\"desc\":\"Add clean premium title typography that integrates naturally with the composition without obscuring the main subject.\"}]}}",
+      "clip": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "model_negative": [
+        "2",
+        0
+      ],
+      "positive": [
+        "7",
+        0
+      ],
+      "cfg": 7.0
+    },
+    "class_type": "DualModelGuider"
+  },
+  "9": {
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "class_type": "KSamplerSelect"
+  },
+  "10": {
+    "inputs": {
+      "image": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "GetImageSize"
+  },
+  "11": {
+    "inputs": {
+      "steps": 20,
+      "width": [
+        "10",
+        0
+      ],
+      "height": [
+        "10",
+        1
+      ],
+      "mu": 0.0,
+      "std": 1.75
+    },
+    "class_type": "Ideogram4Scheduler"
+  },
+  "12": {
+    "inputs": {
+      "sigmas": [
+        "11",
+        0
+      ],
+      "denoise": 0.65
+    },
+    "class_type": "SplitSigmasDenoise"
+  },
+  "13": {
+    "inputs": {
+      "noise_seed": 20260617
+    },
+    "class_type": "RandomNoise"
+  },
+  "14": {
+    "inputs": {
+      "noise": [
+        "13",
+        0
+      ],
+      "guider": [
+        "8",
+        0
+      ],
+      "sampler": [
+        "9",
+        0
+      ],
+      "sigmas": [
+        "12",
+        1
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced"
+  },
+  "15": {
+    "inputs": {
+      "samples": [
+        "14",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "16": {
+    "inputs": {
+      "filename_prefix": "ideogram4_nvfp4_i2i",
+      "images": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  }
+}
