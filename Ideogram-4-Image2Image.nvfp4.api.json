@@ -48,7 +48,7 @@
   },
   "7": {
     "inputs": {
-      "text": "{\"high_level_description\":\"A polished cinematic poster redesign of the source image while preserving the main subject and overall composition.\",\"style_description\":{\"aesthetics\":\"premium, cinematic, crisp, editorial\",\"lighting\":\"dramatic but clean, enhanced contrast, luminous highlights\",\"medium\":\"graphic_design\",\"art_style\":\"high-end poster design with realistic detail and sharp typography\",\"color_palette\":[\"#0E1420\",\"#1F3B73\",\"#F3B33D\",\"#F5F1E8\",\"#C94E2F\"]},\"compositional_deconstruction\":{\"background\":\"Keep the source image background structure but refine it into a cleaner, more premium poster backdrop with clearer separation and dramatic lighting.\",\"elements\":[{\"type\":\"obj\",\"desc\":\"Preserve the main subject from the source image with improved detail, cleaner edges, and stronger visual focus.\"},{\"type\":\"text\",\"text\":\"IDEOGRAM 4\",\"desc\":\"Add clean premium title typography that integrates naturally with the composition without obscuring the main subject.\"}]}}",
+      "text": "Preserve the woman's exact identity, face, hair, expression, skin, pose, body proportions, outfit, framing, and background. Keep the image realistic. Only make a small localized edit inside the masked area.",
       "clip": [
         "3",
         0
@@ -67,7 +67,7 @@
         0
       ],
       "positive": [
-        "7",
+        "21",
         0
       ],
       "cfg": 7.0
@@ -111,7 +111,7 @@
         "11",
         0
       ],
-      "denoise": 0.65
+      "denoise": 0.3
     },
     "class_type": "SplitSigmasDenoise"
   },
@@ -140,7 +140,7 @@
         1
       ],
       "latent_image": [
-        "6",
+        "22",
         0
       ]
     },
@@ -161,12 +161,92 @@
   },
   "16": {
     "inputs": {
-      "filename_prefix": "ideogram4_nvfp4_i2i",
+      "filename_prefix": "ideogram4_nvfp4_i2i_masked",
       "images": [
         "15",
         0
       ]
     },
     "class_type": "SaveImage"
+  },
+  "17": {
+    "inputs": {
+      "image": "example_mask.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "18": {
+    "inputs": {
+      "image": [
+        "17",
+        0
+      ],
+      "channel": "red"
+    },
+    "class_type": "ImageToMask"
+  },
+  "19": {
+    "inputs": {
+      "text": "Add a fitted black leather waist harness around her waist and hips. Keep it realistic, proportional, and anatomically aligned. Do not change the face, expression, hair, or identity.",
+      "clip": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "20": {
+    "inputs": {
+      "conditioning": [
+        "19",
+        0
+      ],
+      "mask": [
+        "23",
+        0
+      ],
+      "strength": 1.25,
+      "set_cond_area": "mask bounds"
+    },
+    "class_type": "ConditioningSetMask"
+  },
+  "21": {
+    "inputs": {
+      "conditioning_1": [
+        "7",
+        0
+      ],
+      "conditioning_2": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "ConditioningCombine"
+  },
+  "22": {
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "mask": [
+        "23",
+        0
+      ]
+    },
+    "class_type": "SetLatentNoiseMask"
+  },
+  "23": {
+    "inputs": {
+      "mask": [
+        "18",
+        0
+      ],
+      "left": 24,
+      "top": 24,
+      "right": 24,
+      "bottom": 24
+    },
+    "class_type": "FeatherMask"
   }
 }
