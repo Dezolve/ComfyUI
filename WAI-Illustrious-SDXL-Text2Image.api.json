@@ -1,0 +1,86 @@
+{
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "cfg": 6,
+      "denoise": 1,
+      "latent_image": [
+        "5",
+        0
+      ],
+      "model": [
+        "4",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "normal",
+      "seed": 1,
+      "steps": 32
+    }
+  },
+  "4": {
+    "class_type": "DiffusersLoader",
+    "inputs": {
+      "model_path": "wai-nsfw-illustrious-sdxl-v140-sdxl"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "batch_size": 1,
+      "height": 1216,
+      "width": 832
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "photorealistic portrait photo, realistic skin texture, natural lighting, detailed eyes, detailed face, 35mm photography, high detail, realistic proportions"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "anime, illustration, cartoon, cel shading, 2d, manga, stylized, exaggerated eyes, simplified face, worst quality, low quality, blurry, artifacts, bad anatomy"
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "WAI_Illustrious_SDXL_Realism",
+      "images": [
+        "8",
+        0
+      ]
+    }
+  }
+}
